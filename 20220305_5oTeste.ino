@@ -17,9 +17,9 @@
 #include <Wire.h>         // BMP
 #include <painlessMesh.h> // MESH
 
-#define   LED             2       // GPIO number of connected LED, ON ESP-12 IS GPIO2
-#define   BLINK_PERIOD    3000 // milliseconds until cycle repeat
-#define   BLINK_DURATION  100  // milliseconds LED is on for
+#define   LED             2    // número GPIO do LED conectado
+#define   BLINK_PERIOD    3000 // millisegundos para repetir o ciclo
+#define   BLINK_DURATION  100  // millisegundos com o LED aceso
 
 #define   MESH_SSID       "MESH-IoTCefet" // MESH
 #define   MESH_PASSWORD   "MESH-IoTCefet" // MESH
@@ -45,7 +45,7 @@ void delayReceivedCallback(uint32_t from, int32_t delay); // E
 // Objetos //
 /////////////
 WiFiManager  wifimanager; // criar um objeto WiFiManager
-Scheduler    userScheduler; // Controlar agendamentos do usuario
+Scheduler    userScheduler; // controlar agendamentos do usuario
 painlessMesh mesh; // criar um objeto Mesh
 SFE_BMP180   pressure;// criar um objeto SFE_BMP180, chamado "pressure"
 
@@ -72,7 +72,7 @@ void initSerial() {
 }
 // 2
 void initWiFi() {
-  WiFi.mode(WIFI_STA); // explicitar claramente o modo q se deseja, ou STA ouAP
+  WiFi.mode(WIFI_STA); // explicitar claramente o modo q se deseja, ou STA ou AP
 
   // Resetar configuracoes de WiFi ja gravadas - comentar se não quiser resetar
   wifimanager.resetSettings();
@@ -87,7 +87,7 @@ void initWiFi() {
     ESP.restart();
   }
   else {
-    //if you get here you have connected to the WiFi
+    // se chegou até aqui, você conseguiu conectar ao WiFi
     Serial.print(" => Conectado com sucesso na rede via WifiManager na rede: ");
     Serial.println(WiFi.SSID());
     Serial.println();
@@ -102,18 +102,18 @@ void initWiFi() {
 // 3
 void initOTA() {
   Serial.println();
-  Serial.println("Iniciando OTA....");
+  Serial.println(" -> Iniciando OTA....");
 
   // Porta padrao: 8266
   // ArduinoOTA.setPort(8266);
 
   // Hostname defaults to esp8266-[ChipID]
-  ArduinoOTA.setHostname("ESP8266-2");
+  ArduinoOTA.setHostname("ESP8266-2");  // nome da host da placa, via OTA
 
   // Por padrao, sem autenticacao
   //ArduinoOTA.setPassword("admin");
 
-  // Password can be set with it's md5 value as well
+  // Senhas podem ser setadas com valores criptografados de md5
   // MD5(admin) = 21232f297a57a5a743894a0e4a801fc3
   // ArduinoOTA.setPasswordHash("21232f297a57a5a743894a0e4a801fc3");
 
@@ -152,7 +152,7 @@ void initOTA() {
   Serial.println("Ready");
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
-  Serial.println("Programa carregado através de OTA!");
+  Serial.println(" - Programa carregado através de OTA!");
 }
 // 4
 void initBMP() {
